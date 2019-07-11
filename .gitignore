@@ -1,8 +1,8 @@
-infra/var/
-
 # Local .terraform directories
 **/.terraform/*
 
 # .tfstate files
 *.tfstate
 *.tfstate.*
+
+*.tfvars
