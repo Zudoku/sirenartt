@@ -3,7 +3,7 @@ variable "site_name" {
 }
 
 variable "ssl_certificate_arn" {
-  description = "ARN of the SSL certificate for the domain"
+  description = "ARN of the SSL certificate for the domain (MUST BE US-EAST-1)"
 }
 
 variable "route_53_zone_id" {
