@@ -1,5 +1,5 @@
 variable "site_name" {
-  description = "Domain of the website"
+  description = "Domain of the website (without www.)"
 }
 
 variable "ssl_certificate_arn" {

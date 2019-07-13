@@ -20,6 +20,13 @@ resource "aws_s3_bucket" "www_site" {
   depends_on = [aws_s3_bucket.logs, aws_cloudfront_origin_access_identity.origin_access_identity]
 }
 
+resource "aws_s3_bucket" "apex" {
+  bucket = "${var.site_name}"
+  website {
+    redirect_all_requests_to = "https://www.${var.site_name}"
+  }
+}
+
 resource "aws_s3_bucket_policy" "www_site" {
   bucket = "${aws_s3_bucket.www_site.id}"
 
@@ -85,6 +92,51 @@ resource "aws_cloudfront_distribution" "website_cdn" {
     acm_certificate_arn      = "${var.ssl_certificate_arn}"
     ssl_support_method       = "sni-only"
   }
+  logging_config {
+    bucket = "${aws_s3_bucket.logs.bucket}"
+    prefix = "website_cdn"
+  }
+}
+
+resource "aws_cloudfront_distribution" "apex_cdn" {
+  enabled      = true
+  price_class  = "PriceClass_100"
+  http_version = "http1.1"
+  aliases = ["${var.site_name}"]
+  origin {
+    origin_id   = "origin-bucket-${aws_s3_bucket.apex.id}"
+    domain_name = "${var.site_name}.s3.eu-west-1.amazonaws.com"
+  }
+  default_cache_behavior {
+    allowed_methods = ["GET", "HEAD"]
+    cached_methods  = ["GET", "HEAD"]
+    target_origin_id = "origin-bucket-${aws_s3_bucket.apex.id}"
+    min_ttl          = "0"
+    default_ttl      = "300"                                              //3600
+    max_ttl          = "1200"                                             //86400
+    // This redirects any HTTP request to HTTPS. Security first!
+    viewer_protocol_policy = "redirect-to-https"
+    compress               = true
+    forwarded_values {
+      query_string = false
+      cookies {
+        forward = "none"
+      }
+    }
+  }
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+  viewer_certificate {
+    acm_certificate_arn      = "${var.ssl_certificate_arn}"
+    ssl_support_method       = "sni-only"
+  }
+  logging_config {
+    bucket = "${aws_s3_bucket.logs.bucket}"
+    prefix = "website_cdn"
+  }
 }
 
 resource "aws_route53_record" "www_site" {
@@ -94,6 +146,17 @@ resource "aws_route53_record" "www_site" {
   alias {
     name = "${aws_cloudfront_distribution.website_cdn.domain_name}"
     zone_id  = "${aws_cloudfront_distribution.website_cdn.hosted_zone_id}"
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "apex" {
+  zone_id = "${var.route_53_zone_id}"
+  name = "${var.site_name}"
+  type = "A"
+  alias {
+    name = "${aws_cloudfront_distribution.apex_cdn.domain_name}"
+    zone_id  = "${aws_cloudfront_distribution.apex_cdn.hosted_zone_id}"
     evaluate_target_health = false
   }
 }
