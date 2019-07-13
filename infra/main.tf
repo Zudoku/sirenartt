@@ -93,7 +93,7 @@ resource "aws_cloudfront_distribution" "website_cdn" {
     ssl_support_method       = "sni-only"
   }
   logging_config {
-    bucket = "${aws_s3_bucket.logs.bucket}"
+    bucket = "${aws_s3_bucket.logs.bucket_domain_name}"
     prefix = "website_cdn"
   }
 }
@@ -134,8 +134,8 @@ resource "aws_cloudfront_distribution" "apex_cdn" {
     ssl_support_method       = "sni-only"
   }
   logging_config {
-    bucket = "${aws_s3_bucket.logs.bucket}"
-    prefix = "website_cdn"
+    bucket = "${aws_s3_bucket.logs.bucket_domain_name}"
+    prefix = "apex_cdn"
   }
 }
 
