@@ -1,3 +1,8 @@
+provider "aws" {
+  version = "~> 2.0"
+  region  = "eu-west-1"
+}
+
 resource "aws_s3_bucket" "logs" {
   bucket = "${var.site_name}-site-logs"
   acl = "log-delivery-write"
@@ -11,10 +16,31 @@ resource "aws_s3_bucket" "www_site" {
   website {
     index_document = "index.html"
   }
-  policy = templatefile("${path.module}/bucket_policy.json", {
-    origin_access_identity_arn = "${aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path}",
-    bucket = "${var.ssl_certificate_arn}"
-  })
+ 
+  depends_on = [aws_s3_bucket.logs, aws_cloudfront_origin_access_identity.origin_access_identity]
+}
+
+resource "aws_s3_bucket_policy" "www_site" {
+  bucket = "${aws_s3_bucket.www_site.id}"
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "OnlyCloudfrontReadAccess",
+      "Principal": {
+        "AWS": "${aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn}"
+      },
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": "${aws_s3_bucket.www_site.arn}/*"
+    }
+  ]
+}
+POLICY
 }
 
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
@@ -56,13 +82,13 @@ resource "aws_cloudfront_distribution" "website_cdn" {
     }
   }
   viewer_certificate {
-    acm_certificate_arn      = "${aws_acm_certificate.cert.arn}"
+    acm_certificate_arn      = "${var.ssl_certificate_arn}"
     ssl_support_method       = "sni-only"
   }
 }
 
 resource "aws_route53_record" "www_site" {
-  zone_id = "${data.aws_route53_zone.site.zone_id}"
+  zone_id = "${var.route_53_zone_id}"
   name = "www.${var.site_name}"
   type = "A"
   alias {
