@@ -277,7 +277,7 @@ resource "aws_codebuild_project" "webserver" {
 
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = "aws/codebuild/nodejs:10"
+    image                       = "aws/codebuild/standard:2.0"
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
 
@@ -287,12 +287,12 @@ resource "aws_codebuild_project" "webserver" {
     }
   }
 
-  logs_config {
-    s3_logs {
-      status = "ENABLED"
-      location = "${aws_s3_bucket.logs.id}/build-log"
-    }
-  }
+#  logs_config {
+#    s3_logs {
+#      status = "ENABLED"
+#      location = "${aws_s3_bucket.logs.id}/build-log"
+#    }
+#  }
 
   source {
     type            = "GITHUB"
