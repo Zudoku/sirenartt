@@ -126,7 +126,7 @@ resource "aws_cloudfront_distribution" "apex_cdn" {
   aliases = ["${var.site_name}"]
   origin {
     origin_id   = "origin-bucket-${aws_s3_bucket.apex.id}"
-    domain_name = "${var.site_name}.s3.eu-west-1.amazonaws.com"
+    domain_name = "${var.site_name}.s3-website-eu-west-1.amazonaws.com"
   }
   default_cache_behavior {
     allowed_methods = ["GET", "HEAD"]
