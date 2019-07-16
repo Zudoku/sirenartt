@@ -10,6 +10,9 @@ phases:
       - npm install
       - apt-get update
       - apt-get install -y awscli
+      - cd website
+      - npm install
+      - cd ..
 
   build: 
     commands:
