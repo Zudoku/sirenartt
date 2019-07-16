@@ -50,6 +50,27 @@ resource "aws_s3_bucket_policy" "www_site" {
 POLICY
 }
 
+resource "aws_s3_bucket_policy" "apex" {
+  bucket = "${aws_s3_bucket.apex.id}"
+
+  policy = <<POLICY
+{
+  "Version":"2012-10-17",
+  "Statement":[
+    {
+	    "Sid": "PublicReadGetObject",
+      "Effect": "Allow",
+	    "Principal": "*",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": ["${aws_s3_bucket.apex.arn}/*"]
+    }
+  ]
+}
+POLICY
+}
+
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
   comment = "cloudfront origin access identity"
 }
@@ -124,6 +145,7 @@ resource "aws_cloudfront_distribution" "apex_cdn" {
       }
     }
   }
+  default_root_object = "index.html"
   restrictions {
     geo_restriction {
       restriction_type = "none"
