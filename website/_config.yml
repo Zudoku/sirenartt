@@ -8,14 +8,14 @@ subtitle: The O in I/O
 description: The O in I/O
 keywords: zudoku
 author: Arttu Siren
-language: FI
+language: en
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: https://www.sirenartt.com
 root: /
-permalink: :year/:month/:day/:title/
+permalink: :year/:month/:day/:title/index.html
 permalink_defaults:
 
 # Directory
