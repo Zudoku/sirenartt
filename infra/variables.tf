@@ -10,10 +10,6 @@ variable "route_53_zone_id" {
   description = "Route 53 zone id"
 }
 
-variable "aws_access_key" {
-  description = "AWS access key that CodeBuild uses to push static files into the s3 bucket"
-}
-
-variable "aws_secret_key" {
-  description = "AWS secret key that CodeBuild uses to push static files into the s3 bucket"
+variable "github_git_url" {
+  description = "Github url for repo: https://github.com/<AUTHOR>/<REPOSITORY>.git"
 }
