@@ -273,7 +273,7 @@ resource "aws_codebuild_project" "webserver" {
 
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = "nodejs:10"
+    image                       = "aws/codebuild/nodejs:10"
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
 
