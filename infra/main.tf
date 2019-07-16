@@ -242,7 +242,10 @@ resource "aws_iam_role_policy" "codebuild_role_policy" {
         "ec2:DeleteNetworkInterface",
         "ec2:DescribeSubnets",
         "ec2:DescribeSecurityGroups",
-        "ec2:DescribeVpcs"
+        "ec2:DescribeVpcs",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "ecr:BatchCheckLayerAvailability"
       ],
       "Resource": "*"
     },
@@ -266,6 +269,7 @@ resource "aws_codebuild_project" "webserver" {
   description   = "aws codebuild project"
   build_timeout = "5"
   service_role  = "${aws_iam_role.codebuild_role.arn}"
+  badge_enabled = "true"
 
   artifacts {
     type = "NO_ARTIFACTS"
@@ -280,6 +284,13 @@ resource "aws_codebuild_project" "webserver" {
     environment_variable {
       name  = "BUCKET"
       value = "${aws_s3_bucket.www_site.bucket}"
+    }
+  }
+
+  logs_config {
+    s3_logs {
+      status = "ENABLED"
+      location = "${aws_s3_bucket.logs.id}/build-log"
     }
   }
 
