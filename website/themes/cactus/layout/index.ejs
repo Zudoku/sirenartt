@@ -31,9 +31,10 @@
   <span class="h1"><a href="<%- url_for("archives/index.html") %>"><%= __('index.articles') %></a></span>
   <% if (theme.tags_overview && site.tags.length) { %>
   <span class="h2"><%= __('index.topics') %></span>
-  <span class="widget tagcloud">
-    <%- tagcloud(theme.tags_overview) %>
-  </span>
+  <div class="article-tag">
+    <i class="fas fa-tag"></i>
+    <%- list_tags(site.tags, { show_count: false, style: 'link', suffix: 'index.html' }) %>
+  </div>
   <span class="h2"><%= __('index.most_recent') %></span>
   <% } %>
   <ul class="post-list">
