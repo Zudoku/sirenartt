@@ -5,7 +5,7 @@ date: 2019-07-17 02:16:11
 
 My name is **Arttu Siren** from Finland.
 
-In this website / blog you will find my thoughts about software engineering, music and probably just general blabber about life. 
+In this website / blog you will find my thoughts about software engineering, music and probably just general blabber about anything. 
 
 You can find me on [GitHub](https://github.com/Zudoku/sirenartt).
 
