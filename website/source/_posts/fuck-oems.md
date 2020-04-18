@@ -32,14 +32,7 @@ Exoplayer, the most popular and stable video / streaming library for Android kee
     }
     synchronized (MediaCodecVideoRenderer.class) {
       if (!evaluatedDeviceNeedsSetOutputSurfaceWorkaround) {
-        if (Util.SDK_INT <= 27 && (
-                   "dangal".equals(Util.DEVICE)
-                || "HWEML".equals(Util.DEVICE)
-                || "HWCLT".equals(Util.DEVICE)
-                || "HWCOL".equals(Util.DEVICE)
-                || "HWAGS2".equals(Util.DEVICE)
-                || "HWVOG".equals(Util.DEVICE)
-         )) {
+        if (Util.SDK_INT <= 27 && "dangal".equals(Util.DEVICE)) {
           // A small number of devices are affected on API level 27:
           // https://github.com/google/ExoPlayer/issues/5169.
           deviceNeedsSetOutputSurfaceWorkaround = true;
