@@ -6,13 +6,12 @@ phases:
       nodejs: 16
 
     commands: 
-      - npm install -g hexo-cli
-      - npm install
       - apt-get install -y curl
       - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
       - apt-get update
       - apt-get install -y awscli
       - cd website
+      - npm install -g hexo-cli
       - npm install
       - cd ..
 
