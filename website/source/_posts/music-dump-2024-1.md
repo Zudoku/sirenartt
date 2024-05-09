@@ -1,13 +1,14 @@
 ---
 title: music-dump-2024-1
-date: 2024-05-09 20:24:00
+date: 2024-05-09 20:43:00
 tags:
 - music
 ---
 
 Time for an annual music dump!
 
-title: 
+As a funny coincidence, I was looking back on music I listed last year and spotted DJ Windows 7, quite funny that this years Finlands Eurovision contestant for Finland is Windows95Man.  What is it with artists and Windows? :D 
+
 * [Clara La San - In This Darkness (Pamplem'House Remix)](https://www.youtube.com/watch?v=XwQmSPg1imw)
 * [B FROM E - Kyo](https://www.youtube.com/watch?v=RImh4LNP4Fw)
 * [Binary Digit - Untitled 38490](https://www.youtube.com/watch?v=Z44NzTxmp0Q)
@@ -18,6 +19,6 @@ title:
 
 
 
-` 2024-05-09 20:24:00`
+` 2024-05-09 20:43:00`
 
 `- Zudoku`
