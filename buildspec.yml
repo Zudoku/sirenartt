@@ -1,9 +1,9 @@
-version: 0.2
+version: 0.3
 
 phases:
   install:
     runtime-versions:
-      nodejs: 16
+      nodejs: 24
 
     commands: 
       - apt-get install -y curl
@@ -12,7 +12,7 @@ phases:
       - apt-get install -y awscli
       - cd website
       - npm install -g hexo-cli
-      - npm install
+      - npm ci
       - cd ..
 
   build: 
